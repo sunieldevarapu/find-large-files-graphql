@@ -3,7 +3,7 @@ from github import Github
 
 REPO_OWNER = "sunieldevarapu"
 REPO_NAME = "find-large-files-graphql"
-SIZE_THRESHOLD_KB = 20
+SIZE_THRESHOLD_KB = 10
 OUTPUT_FILE = "large_files_report.txt"
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
