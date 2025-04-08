@@ -40,7 +40,7 @@ def get_blob_size(blob_sha):
     return resp.json()["size"]
 
 def find_large_files():
-    print(f"🔍 Scanning {REPO_OWNER}/{REPO_NAME} for files > {SIZE_THRESHOLD_KB}KB")
+    print(f"Scanning {REPO_OWNER}/{REPO_NAME} for files > {SIZE_THRESHOLD_KB}KB")
     branch = get_default_branch_sha()
     commit_sha = get_tree_sha(branch)
     tree = get_tree(commit_sha)
