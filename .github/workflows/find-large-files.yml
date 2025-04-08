@@ -26,4 +26,4 @@ jobs:
     - name: Run large file scanner (Recursive GraphQL)
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: python find_large_files_graphql_recursive.py
+      run: python find-large-files.py
