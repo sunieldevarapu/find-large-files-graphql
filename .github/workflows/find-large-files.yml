@@ -1,15 +1,13 @@
-name: Find Large Files (Recursive GraphQL)
+name: Find Large Files (GraphQL Recursive)
 
 on:
-  # push:
-  #   branches: [ main ]
-  # pull_request:
-  #   branches: [ main ]
+  
   workflow_dispatch:
 
 jobs:
   scan-large-files:
     runs-on: windows-latest
+
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -23,12 +21,18 @@ jobs:
         python-version: '3.10'
 
     - name: Install dependencies
-      run: pip install requests    
+      run: pip install requests
 
-    - name: Debug token (test only)
+    - name: Debug token length
       run: |
-        echo "Token length: ${#GITHUB_TOKEN}"
-      
+        if [ -z "$GITHUB_TOKEN" ]; then
+          echo "GITHUB_TOKEN is empty"
+          exit 1
+        else
+          echo "GITHUB_TOKEN is present"
+          echo "Token length: ${#GITHUB_TOKEN}"
+        fi
+      shell: bash
+
     - name: Run large file scanner (Recursive GraphQL)
       run: python find-large-files.py
-
