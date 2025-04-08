@@ -36,3 +36,10 @@ jobs:
 
     - name: Run large file scanner (Recursive GraphQL)
       run: python find-large-files.py
+
+    - name: Upload report artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: large-files-report
+        path: large_files_report.txt
+
