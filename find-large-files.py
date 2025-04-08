@@ -10,7 +10,7 @@ OUTPUT_FILE = "large_files_report.txt"
 # Use GitHub token from environment
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 if not GITHUB_TOKEN:
-    raise Exception("❌ GITHUB_TOKEN environment variable not set.")
+    raise Exception("GITHUB_TOKEN environment variable not set.")
 
 HEADERS = {
     "Authorization": f"Bearer {GITHUB_TOKEN}",
@@ -23,7 +23,7 @@ def run_query(query, variables):
     url = "https://api.github.com/graphql"
     response = requests.post(url, json={"query": query, "variables": variables}, headers=HEADERS)
     if response.status_code != 200:
-        raise Exception(f"❌ GraphQL query failed: {response.status_code} - {response.text}")
+        raise Exception(f"GraphQL query failed: {response.status_code} - {response.text}")
     return response.json()
 
 
@@ -104,27 +104,27 @@ def walk_tree(commit_sha, base_path=""):
 def save_results_to_file(files):
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         if not files:
-            f.write("✅ No large files found.\n")
+            f.write("No large files found.\n")
         else:
-            f.write(f"📦 Files larger than {SIZE_THRESHOLD_KB}KB:\n\n")
+            f.write(f"Files larger than {SIZE_THRESHOLD_KB}KB:\n\n")
             for path, size in sorted(files, key=lambda x: -x[1]):
                 f.write(f"{path} - {size} KB\n")
 
 
 def main():
-    print(f"🔍 Scanning {REPO_OWNER}/{REPO_NAME} for files > {SIZE_THRESHOLD_KB}KB...")
+    print(f"Scanning {REPO_OWNER}/{REPO_NAME} for files > {SIZE_THRESHOLD_KB}KB...")
     commit_sha = get_default_branch_sha()
     large_files = walk_tree(commit_sha)
 
     if not large_files:
-        print("✅ No large files found.")
+        print("No large files found.")
     else:
-        print(f"\n📦 Files larger than {SIZE_THRESHOLD_KB}KB:\n")
+        print(f"\n Files larger than {SIZE_THRESHOLD_KB}KB:\n")
         for path, size in sorted(large_files, key=lambda x: -x[1]):
             print(f"{path} - {size} KB")
 
     save_results_to_file(large_files)
-    print(f"\n📝 Results saved to: {OUTPUT_FILE}")
+    print(f"\n Results saved to: {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
