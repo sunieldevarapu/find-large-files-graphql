@@ -23,16 +23,16 @@ jobs:
     - name: Install dependencies
       run: pip install requests
 
-    - name: Debug token length
-      run: |
-        if [ -z "$GITHUB_TOKEN" ]; then
-          echo "GITHUB_TOKEN is empty"
-          exit 1
-        else
-          echo "GITHUB_TOKEN is present"
-          echo "Token length: ${#GITHUB_TOKEN}"
-        fi
-      shell: bash
+    # - name: Debug token length
+    #   run: |
+    #     if [ -z "$GITHUB_TOKEN" ]; then
+    #       echo "GITHUB_TOKEN is empty"
+    #       exit 1
+    #     else
+    #       echo "GITHUB_TOKEN is present"
+    #       echo "Token length: ${#GITHUB_TOKEN}"
+    #     fi
+    #   shell: bash
 
     - name: Run large file scanner (Recursive GraphQL)
       run: python find-large-files.py
