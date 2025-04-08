@@ -48,11 +48,20 @@ def find_large_files():
     large_files = []
 
     for item in tree:
-        if item["type"] == "blob":
-            size_kb = item["size"] / 1024
+        if item.get("type") == "blob":
+            path = item.get("path", "<unknown path>")
+            blob_sha = item["sha"]
+            size_bytes = item.get("size")
+
+            # Fallback to blob API if size is not provided
+            if size_bytes is None:
+                size_bytes = get_blob_size(blob_sha, path)
+
+            size_kb = size_bytes / 1024
             print(f"{path} — {round(size_kb, 2)} KB")
+
             if size_kb >= SIZE_THRESHOLD_KB:
-                large_files.append((item["path"], round(size_kb, 2)))
+                large_files.append((path, round(size_kb, 2)))
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         if not large_files:
