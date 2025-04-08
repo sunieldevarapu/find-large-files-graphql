@@ -7,7 +7,7 @@ REPO_OWNER = "sunieldevarapu"      # e.g., "octocat"
 REPO_NAME = "find-large-files-graphql"        # e.g., "Hello-World"
 SIZE_THRESHOLD_KB = 50   # File size threshold
 OUTPUT_FILE = "large_files_report.txt"
-GITHUB_TOKEN = os.getenv("WINDOWS_TOKEN")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 HEADERS = {
     "Authorization": f"Bearer {GITHUB_TOKEN}",
     "Content-Type": "application/json"
