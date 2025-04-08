@@ -27,3 +27,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN1 }}
       run: python find-large-files.py
+
+    - name: Debug token (test only)
+      run: |
+        echo "Token length: ${#GITHUB_TOKEN}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
