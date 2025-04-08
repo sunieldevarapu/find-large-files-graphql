@@ -35,7 +35,7 @@ jobs:
     #   shell: bash
 
     - name: Run large file scanner (Recursive GraphQL)
-      run: python find-large-files.py
+      run: python find-large-files-graphql.py
 
     - name: Upload report artifact
       uses: actions/upload-artifact@v4
