@@ -38,7 +38,7 @@ jobs:
       run: python find-large-files.py
 
     - name: Upload report artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: large-files-report
         path: large_files_report.txt
