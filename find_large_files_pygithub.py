@@ -1,8 +1,8 @@
 import os
 from github import Github
 
-REPO_OWNER = "your-username-or-org"
-REPO_NAME = "your-repo-name"
+REPO_OWNER = "sunieldevarapu"
+REPO_NAME = "find-large-files-graphql"
 SIZE_THRESHOLD_KB = 20
 OUTPUT_FILE = "large_files_report.txt"
 
