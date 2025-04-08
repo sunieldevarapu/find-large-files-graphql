@@ -82,13 +82,15 @@ def walk_tree(commit_sha, base_path=""):
 
     while stack:
         current_path = stack.pop()
-        expression = f"{commit_sha}:{current_path}" if current_path else commit_sha
+        expression = f"{commit_sha}:{current_path}" if current_path else f"{commit_sha}:"
+        print(f"Scanning path: '{expression}'")
         entries = get_tree_entries(expression)
 
         for entry in entries:
             entry_type = entry["type"]
             entry_path = entry["path"]
             size_info = entry.get("object")
+            print(f"Found entry: {entry_path} - {entry_type}")
 
             if entry_type == "blob" and size_info:
                 size_kb = size_info["byteSize"] / 1024
