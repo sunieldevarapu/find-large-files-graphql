@@ -1,0 +1,32 @@
+name: Find Large Files (REST API)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: windows-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies
+      run: pip install requests
+
+    - name: Run large file scanner (REST)
+      run: python find-large-files-rest.py
+
+    - name: Upload report
+      uses: actions/upload-artifact@v4
+      with:
+        name: large-files-report
+        path: large_files_report.txt
