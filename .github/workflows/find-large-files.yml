@@ -10,6 +10,8 @@ on:
 jobs:
   scan-large-files:
     runs-on: windows-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
     - name: Checkout repository
@@ -26,11 +28,7 @@ jobs:
     - name: Debug token (test only)
       run: |
         echo "Token length: ${#GITHUB_TOKEN}"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      
     - name: Run large file scanner (Recursive GraphQL)
-      env:
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN1 }}
       run: python find-large-files.py
 
