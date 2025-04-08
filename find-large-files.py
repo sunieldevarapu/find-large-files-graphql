@@ -101,27 +101,27 @@ def walk_tree_recursively(commit_sha, prefix=""):
 def save_results_to_file(files):
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         if not files:
-            f.write("✅ No large files found.\n")
+            f.write("No large files found.\n")
         else:
-            f.write(f"📦 Files larger than {SIZE_THRESHOLD_KB}KB:\n\n")
+            f.write(f"Files larger than {SIZE_THRESHOLD_KB}KB:\n\n")
             for path, size in sorted(files, key=lambda x: -x[1]):
                 f.write(f"{path} - {size} KB\n")
 
 
 def main():
-    print(f"🔍 Scanning {REPO_OWNER}/{REPO_NAME} for large files...")
+    print(f"Scanning {REPO_OWNER}/{REPO_NAME} for large files...")
     sha = get_default_branch_sha()
     large_files = walk_tree_recursively(sha)
 
     if not large_files:
-        print("✅ No large files found.")
+        print("No large files found.")
     else:
-        print(f"\n📦 Files larger than {SIZE_THRESHOLD_KB}KB:\n")
+        print(f"\n Files larger than {SIZE_THRESHOLD_KB}KB:\n")
         for path, size in sorted(large_files, key=lambda x: -x[1]):
             print(f"{path} - {size} KB")
 
     save_results_to_file(large_files)
-    print(f"\n📝 Results saved to: {OUTPUT_FILE}")
+    print(f"\n Results saved to: {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
