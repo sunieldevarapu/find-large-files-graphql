@@ -7,7 +7,7 @@ import time
 # --- CONFIG ---
 REPO_OWNER = "sunieldevarapu"      # e.g., "octocat"
 REPO_NAME = "find-large-files-graphql"        # e.g., "Hello-World"
-SIZE_THRESHOLD_KB = 10   # File size threshold
+SIZE_THRESHOLD_KB = 50   # File size threshold
 OUTPUT_FILE = "large_files_report.txt"
 # Use GitHub token from environment
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
@@ -131,16 +131,19 @@ def main():
             variables = {"owner": owner, "repo": repo}
             #result = graphql_query(branch_query, variables, github_token)
             #default_branch = result["data"]["repository"]["defaultBranchRef"]["name"]
+            default_branch = None
             try:
                 result = graphql_query(branch_query, variables, github_token)
                 default_branch_ref = result.get("data", {}).get("repository", {}).get("defaultBranchRef")
-                if not default_branch_ref:
+                if default_branch_ref:
+                    default_branch = default_branch_ref["name"]
+                else:
                     print(f"Skipping {owner}/{repo} — no default branch found or repo is inaccessible.")
                     continue
-                default_branch = default_branch_ref["name"]
             except Exception as e:
                 print(f"Error fetching default branch for {owner}/{repo}: {e}")
                 continue
+
 
 
             try:
