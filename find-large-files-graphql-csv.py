@@ -121,16 +121,7 @@ def main():
               }
             }
             """
-            default_branch_ref = result.get("data", {}).get("repository", {}).get("defaultBranchRef")
-            if not default_branch_ref:
-                print(f"Repository {owner}/{repo} has no default branch or is inaccessible.")
-                continue  # skip this repo
-            
-            default_branch = default_branch_ref["name"]
-
             variables = {"owner": owner, "repo": repo}
-            #result = graphql_query(branch_query, variables, github_token)
-            #default_branch = result["data"]["repository"]["defaultBranchRef"]["name"]
             default_branch = None
             try:
                 result = graphql_query(branch_query, variables, github_token)
@@ -143,8 +134,6 @@ def main():
             except Exception as e:
                 print(f"Error fetching default branch for {owner}/{repo}: {e}")
                 continue
-
-
 
             try:
                 repo_large_files = walk_tree_recursive(owner, repo, default_branch, github_token, threshold_kb=args.size_threshold_kb)
