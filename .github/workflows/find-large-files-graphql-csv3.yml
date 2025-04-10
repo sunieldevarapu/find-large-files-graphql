@@ -1,0 +1,33 @@
+name: Scan Repos for Large Files (GraphQL)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Large File Scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          CSV_INPUT: "repos.csv"
+          CSV_OUTPUT: "large_files_report.csv"
+          SIZE_THRESHOLD_KB: "50"
+        run: python find_large_files.py
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: large-files-report
+          path: large_files_report.csv
