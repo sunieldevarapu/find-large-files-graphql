@@ -20,7 +20,7 @@ jobs:
 
       - name: Run Large File Scanner
         env:
-          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN1 }}
           CSV_INPUT: "repos.csv"
           CSV_OUTPUT: "large_files_report.csv"
           SIZE_THRESHOLD_KB: "50"
