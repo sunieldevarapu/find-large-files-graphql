@@ -1,3 +1,66 @@
+---
+name: Repository Size Scanner
+
+on:
+  workflow_dispatch:      # Allow manual trigger
+
+jobs:
+  scan-repositories:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      actions: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pandas python-dotenv
+          
+      - name: Create repositories.csv
+        run: |
+          echo "repository" > repositories.csv
+          gh api graphql -F owner=${{ github.repository_owner }} -f query='
+            query($owner: String!) {
+              organization(login: $owner) {
+                repositories(first: 100, isArchived: false) {
+                  nodes {
+                    nameWithOwner
+                    visibility
+                  }
+                }
+              }
+            }
+          ' --jq '.data.organization.repositories.nodes[].nameWithOwner' >> repositories.csv
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          
+      - name: Run repository scanner
+        run: python github_scanner.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_ENTERPRISE_URL: ${{ secrets.GITHUB_ENTERPRISE_URL }}
+          
+      - name: Upload scan results
+        uses: actions/upload-artifact@v4
+        with:
+          name: large-files-report
+          path: large_files_report_*.csv
+          retention-days: 30
+
+
+
+---
 name: Repository Size Scanner
 
 on:
