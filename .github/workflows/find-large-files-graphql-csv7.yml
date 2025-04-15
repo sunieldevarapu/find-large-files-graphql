@@ -1,8 +1,6 @@
 name: Repository Size Scanner
 
 on:
-  schedule:
-    - cron: '0 0 * * 1'  # Run weekly on Monday at midnight
   workflow_dispatch:      # Allow manual trigger
 
 jobs:
