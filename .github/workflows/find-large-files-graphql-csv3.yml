@@ -24,7 +24,7 @@ jobs:
           CSV_INPUT: "repos.csv"
           CSV_OUTPUT: "large_files_report.csv"
           SIZE_THRESHOLD_KB: "50"
-        run: python find-large-files-graphql-csv3.py
+        run: python find-large-files-graphql-csv10.py
 
       - name: Upload Report
         uses: actions/upload-artifact@v4
